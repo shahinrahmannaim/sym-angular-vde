@@ -1,0 +1,43 @@
+/* Add this CSS to signup.component.css */
+
+.signup-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+  height: 100vh;          /* Full height of the viewport */
+  background-color: #f9f9f9; /* Optional: Background color */
+}
+
+form {
+  display: flex;
+  flex-direction: column;  /* Arrange form elements in a column */
+  padding: 20px;           /* Add some padding */
+  border: 1px solid #ccc;  /* Optional: Border around the form */
+  border-radius: 5px;      /* Optional: Rounded corners */
+  background-color: white;  /* Optional: Background color for the form */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Box shadow */
+}
+
+label {
+  margin-bottom: 5px; /* Space between label and input */
+}
+
+input, select {
+  margin-bottom: 15px; /* Space between inputs */
+  padding: 10px;       /* Padding inside input fields */
+  border: 1px solid #ccc; /* Border around inputs */
+  border-radius: 4px;  /* Rounded corners for inputs */
+}
+
+button {
+  padding: 10px;       /* Padding inside the button */
+  background-color: #007bff; /* Button color */
+  color: white;        /* Text color */
+  border: none;        /* No border */
+  border-radius: 4px;  /* Rounded corners for button */
+  cursor: pointer;     /* Pointer cursor on hover */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}

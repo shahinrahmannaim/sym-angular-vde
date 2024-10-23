@@ -1,0 +1,24 @@
+<app-layout />
+<div class="parent">
+    <div class="login login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <!-- Bind the form to the onLogin method using ngSubmit -->
+            <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+                <div class="input-group">
+                    <label for="useremail">User Email</label>
+                    <!-- Two-way binding for email and required validation -->
+                    <input name="email" [(ngModel)]="loginObj.email" type="email" id="useremail" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <!-- Two-way binding for password and required validation -->
+                    <input name="password" [(ngModel)]="loginObj.password" type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <!-- Submit the form when clicking the button -->
+                <button type="submit" class="btn" [disabled]="loginForm.invalid">Login</button>
+            </form>
+            <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+    </div>
+</div>

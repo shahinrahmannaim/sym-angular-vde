@@ -1,0 +1,24 @@
+<div class="edit-user">
+    <h2>Edit User</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="username">Username</label>
+        <input id="username" [(ngModel)]="userObj.username" name="username" required />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" [(ngModel)]="userObj.email" name="email" type="email" required />
+      </div>
+      <div>
+        <label for="department">Department</label>
+        <input id="department" [(ngModel)]="userObj.department" name="department" required />
+      </div>
+      <div>
+        <label for="role">Role</label>
+        <input id="role" [(ngModel)]="userObj.role" name="role" required />
+      </div>
+      <button type="submit">Update User</button>
+      <a routerLink="/admin/users">Back to Users</a>
+    </form>
+  </div>
+  

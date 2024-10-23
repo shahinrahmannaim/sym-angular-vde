@@ -1,0 +1,28 @@
+<div class="admin-dashboard">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-title">Admin: {{ adminname }}</div>
+      <div class="navbar-logout">
+        <a routerLink="/login" (click)="onLogout()">Logout</a>
+      </div>
+    </nav>
+  
+    <div class="main-content">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <ul>
+          <li><a routerLink="/admin/users" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" >Users</a></li>
+          <li><a routerLink="/admin/recipes" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" >Recipes</a></li>
+          <li><a routerLink="/admin/categories" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" >Categories</a></li>
+          <li><a routerLink="/admin/departments" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Departments</a></li>
+        </ul>
+      </aside>
+  
+      <!-- Main Content Area -->
+      <div class="content">
+         <!-- Where routed components will be displayed -->
+         <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  

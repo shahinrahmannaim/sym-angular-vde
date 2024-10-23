@@ -1,0 +1,73 @@
+<div class="add-recipe">
+  <h1>Add Recipe</h1>
+  <form (ngSubmit)="onSubmit(recipeForm)" #recipeForm="ngForm">
+    
+    <div>
+      <label for="title">Title</label>
+      <input
+        id="title"
+        name="title"
+        ngModel
+        required
+        #title="ngModel"
+      />
+      <div *ngIf="title.invalid && title.touched" class="error">
+        Title is required
+      </div>
+    </div>
+
+    <div>
+      <label for="thumbnailFile">Thumbnail File</label>
+      <input
+        type="file"
+        id="thumbnailFile"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+
+    <div>
+      <label for="category">Category</label>
+      <input
+        id="category"
+        name="category"
+        ngModel
+        required
+        #category="ngModel"
+      />
+      <div *ngIf="category.invalid && category.touched" class="error">
+        Category is required
+      </div>
+    </div>
+
+    <div>
+      <label for="content">Content</label>
+      <textarea
+        id="content"
+        name="content"
+        ngModel
+        required
+        #content="ngModel"
+      ></textarea>
+      <div *ngIf="content.invalid && content.touched" class="error">
+        Content is required
+      </div>
+    </div>
+
+    <div>
+      <label for="duration">Duration (in minutes)</label>
+      <input
+        id="duration"
+        name="duration"
+        type="number"
+        ngModel
+        required
+        #duration="ngModel"
+      />
+      <div *ngIf="duration.invalid && duration.touched" class="error">
+        Duration is required
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="recipeForm.invalid">Add Recipe</button>
+  </form>
+</div>

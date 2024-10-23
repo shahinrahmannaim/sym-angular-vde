@@ -1,0 +1,136 @@
+/* Ensure the container is centered and adds some margin on the sides */
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto; /* Adjust the horizontal margin to center the content */
+}
+
+/* Recipe list container */
+.recipe-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px; /* Limit the maximum width of the recipe list */
+}
+
+/* Recipe card styling */
+.recipe-card {
+  display: flex;
+  margin-bottom: 20px; /* Space between cards */
+  padding: 15px;
+  border: 1px solid #ddd; /* Light border for card separation */
+  border-radius: 8px; /* Rounded corners for the card */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #fff; /* White background for cards */
+}
+
+/* Image styling */
+.recipe-thumbnail {
+  flex-shrink: 0; /* Prevent image from shrinking */
+  width: 150px; /* Fixed width for the image */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 20px; /* Space between image and text */
+}
+
+.recipe-thumbnail img {
+  width: 100%; /* Ensure the image fills its container */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 4px; /* Rounded corners for the image */
+  object-fit: cover; /* Ensure the image covers the container without distortion */
+}
+
+/* Content area styling */
+.recipe-content {
+  flex: 1;
+  margin: 0; /* Remove default margin */
+}
+
+/* Add spacing between sections in the content area */
+.recipe-content h2 {
+  margin-top: 0; /* Remove top margin */
+  margin-bottom: 10px; /* Space below the title */
+}
+
+.recipe-content p {
+  margin: 0; /* Remove default margin */
+  margin-bottom: 15px; /* Space between content paragraphs */
+}
+
+/* Meta information styling */
+.recipe-meta {
+  margin-top: 15px; /* Space between content and meta section */
+}
+
+/* Space between meta items */
+.recipe-meta span {
+  display: block; /* Ensure each meta item is on a new line */
+  margin-bottom: 10px; /* Space between meta items */
+  font-size: 14px; /* Adjust font size if needed */
+}
+
+/* Optional: add a border or separator if desired */
+.recipe-meta span:not(:last-child) {
+  border-bottom: 1px solid #ddd; /* Light border between items */
+  padding-bottom: 10px; /* Space below the border */
+}
+
+/* Action buttons styling */
+.recipe-actions {
+  margin-top: 15px; /* Space between meta and action buttons */
+}
+
+.recipe-actions .btn {
+  margin-right: 10px; /* Space between buttons */
+}
+
+/* Button styling */
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-edit {
+  background-color: #4CAF50; /* Green background for edit button */
+}
+
+.btn-delete {
+  background-color: #f44336; /* Red background for delete button */
+}
+
+.detail-button{
+  background-color: rgb(84, 209, 153);
+  color: black;
+  border: none;
+  width: 90px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+
+img.default-image {
+  width: 100%; /* Ensure default image fills its container */
+  height: 100px; /* Set a fixed height for the default image */
+  object-fit: cover; /* Maintain aspect ratio while covering container */
+}
+
+.btn-add{
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-primary-add {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary-add:hover {
+  background-color: #142b45;
+}

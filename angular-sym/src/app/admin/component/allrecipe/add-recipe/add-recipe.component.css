@@ -1,0 +1,49 @@
+.recipe-detail {
+  max-width: 800px; /* Adjust based on your preference */
+  margin: 0 auto; /* Center horizontally */
+  padding: 20px; /* Add padding around the content */
+  background-color: #f9f9f9; /* Light background color for better readability */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better focus */
+}
+
+.recipe-detail h1 {
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Space below the title */
+}
+
+.form-group {
+  margin-bottom: 15px; /* Space between form elements */
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.recipe-actions {
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 10px; /* Space between the buttons */
+  margin-top: 20px; /* Space above the actions */
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-edit {
+  background-color: #4caf50; /* Green for add */
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8; /* Slightly transparent on hover */
+}

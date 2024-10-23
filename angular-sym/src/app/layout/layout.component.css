@@ -1,0 +1,49 @@
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #150a0a8b;
+    padding: 10px 20px;
+}
+
+.logo a {
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #555;
+    border-radius: 4px;
+}
+/* src/app/nav/nav.component.css */
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+  }
+  
+  nav ul li a.active-link {
+    color: rgb(227, 227, 234); /* Highlight color for active link */
+    font-weight: bold; /* Optional: Make the active link bold */
+  }
+  

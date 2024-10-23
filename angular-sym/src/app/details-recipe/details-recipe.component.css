@@ -1,0 +1,65 @@
+/* src/app/details-recipe/details-recipe.component.css */
+
+.recipe-detail {
+  max-width: 800px; /* Adjust based on your preference */
+  margin: 0 auto; /* Center horizontally */
+  padding: 20px; /* Add padding around the content */
+  background-color: #f9f9f9; /* Light background color for better readability */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better focus */
+}
+
+.recipe-detail h1 {
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Space below the title */
+}
+
+.recipe-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto; /* Center the image horizontally */
+  border-radius: 8px; /* Optional: round the corners of the image */
+}
+
+.recipe-meta {
+  margin-top: 20px; /* Space above the meta information */
+  padding: 10px 0;
+  border-top: 1px solid #ddd; /* Subtle line separating meta info */
+  border-bottom: 1px solid #ddd; /* Subtle line separating meta info */
+  text-align: center; /* Center meta information */
+}
+
+.recipe-meta span {
+  display: block;
+  margin-bottom: 5px; /* Space between meta items */
+}
+
+.recipe-actions {
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 10px; /* Space between the buttons */
+  margin-top: 20px; /* Space above the actions */
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-edit {
+  background-color: #4caf50; /* Green for edit */
+  color: white;
+}
+
+.btn-delete {
+  background-color: #f44336; /* Red for delete */
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8; /* Slightly transparent on hover */
+}

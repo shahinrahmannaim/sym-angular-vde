@@ -1,0 +1,67 @@
+<div class="recipe-detail">
+  <h1>Add Recipe</h1>
+
+  <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input
+        type="text"
+        name="title"
+        [(ngModel)]="recipe.title"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="thumbnailFile">Thumbnail:</label>
+      <input
+        type="file"
+        name="thumbnailFile"
+        (change)="onFileChange($event)"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="duration">Duration:</label>
+      <input
+        type="text"
+        name="duration"
+        [(ngModel)]="recipe.duration"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content:</label>
+      <textarea
+        name="content"
+        [(ngModel)]="recipe.content"
+        required
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select
+        id="category"
+        name="category"
+        [(ngModel)]="recipe.category"
+        required
+        class="form-control"
+      >
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="recipe-actions">
+      <button type="submit" class="btn btn-edit">Add Recipe</button>
+    </div>
+  </form>
+</div>

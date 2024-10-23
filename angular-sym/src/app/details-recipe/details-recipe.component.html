@@ -1,0 +1,20 @@
+<!-- src/app/details-recipe/details-recipe.component.html -->
+<div class="recipe-detail">
+  <h1>{{ recipe?.title }}</h1>
+  <img 
+  [src]="recipe?.thumbnailFile ? recipe.thumbnailFile : 'assets/default-thumbnail.jpg'" 
+  alt="{{ recipe?.title }}" 
+  class="recipe-image" />
+  <p>{{ recipe?.content }}</p>
+  
+  <div class="recipe-meta">
+    <span><strong>Duration:</strong> {{ recipe?.duration }} mins</span>
+    <span><strong>Created At:</strong> {{ recipe?.createdAt | date: 'medium' }}</span>
+    <span><strong>Updated At:</strong> {{ recipe?.updatedAt | date: 'medium' }}</span>
+  </div>
+  
+  <div class="recipe-actions">
+    <button (click)="onEdit(recipe.id)" link class="btn btn-edit">Edit</button>
+    <button (click)="deleteRecipe()" class="btn btn-delete">Delete</button>
+  </div>
+</div>

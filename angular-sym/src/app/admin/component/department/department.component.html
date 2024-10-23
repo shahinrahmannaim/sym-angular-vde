@@ -1,0 +1,23 @@
+<div class="department-container">
+    <h2>Department Management</h2>
+  
+    <!-- Add/Edit Department Form -->
+    <div class="department-form">
+      <input [(ngModel)]="newDepartment.name" placeholder="Department Name" />
+      <button (click)="editMode ? updateDepartment() : addDepartment()">
+        {{ editMode ? 'Update Department' : 'Add Department' }}
+      </button>
+    </div>
+  
+    <!-- Department List -->
+    <ul class="department-list">
+      <li *ngFor="let department of departments">
+        <span class="department-info">{{ department.name }}</span>
+        <div class="actions">
+          <button class="edit-button" (click)="editDepartment(department)">Edit</button>
+          <button class="delete-button" (click)="deleteDepartment(department.id)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  

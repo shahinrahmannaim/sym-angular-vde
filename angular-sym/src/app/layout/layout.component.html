@@ -1,0 +1,28 @@
+
+<nav class="navbar">
+    <div class="logo">
+        <a routerLink="/recipe">MyLogo</a>
+    </div>
+    <ul class="nav-links">
+        <li><a routerLink="/recipe">Home</a></li>
+        <li><a href="#" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" >About</a></li>
+        <li><a href="#" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" >Services</a></li>
+        
+        <li *ngIf="!isLoggedIn()">
+          <a routerLink="/login" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Login</a>
+        </li>
+        <li *ngIf="!isLoggedIn()">
+          <a routerLink="/signup" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" >Register</a>
+        </li>
+   
+        <li *ngIf="isLoggedIn()">
+            <a> {{username}} </a>
+          </li>  
+          <li *ngIf="isLoggedIn()">
+            <a (click)="onLogout()">Logout</a>
+          </li> 
+        
+          
+    </ul>
+</nav>
+<router-outlet />

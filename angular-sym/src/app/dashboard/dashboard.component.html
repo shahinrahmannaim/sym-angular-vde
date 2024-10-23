@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="recipe-list">
+    <div class="recipe-actions">
+      <a routerLink="/add-recipe" class="btn-add btn-primary-add">Add Recipe</a>
+      <br>
+      <br>
+      <hr>
+
+      <div *ngIf="recipeList.length > 0; else noData">
+        <div *ngFor="let recipe of recipeList" class="recipe-card">
+          <div class="recipe-thumbnail">
+            <img [src]="recipe.thumbnailFile ? recipe.thumbnailFile : 'assets/default-thumbnail.jpg'" 
+                 alt="{{ recipe.title }}" 
+                 class="recipe-image" />
+          </div>
+          <div class="recipe-content">
+            <h2 routerLink="/details-recipe">{{ recipe.title }}</h2>
+
+            <div class="recipe-actions">
+              <button class="detail-button" (click)="goToRecipe(recipe)">View Details</button>
+              <br>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noData>
+        <p>No recipes available.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

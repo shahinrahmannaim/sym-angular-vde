@@ -1,0 +1,23 @@
+<div class="category-container">
+    <h2>category Management</h2>
+  
+    <!-- Add/Edit Department Form -->
+    <div class="category-form">
+      <input [(ngModel)]="newCategory.name" placeholder="Department Name" />
+      <button (click)="editMode ? updateCategory() : addCategory()">
+        {{ editMode ? 'Update Department' : 'Add Department' }}
+      </button>
+    </div>
+  
+    <!-- Department List -->
+    <ul class="category-list">
+      <li *ngFor="let category of categories">
+        <span class="category-info">{{ category.name }}</span>
+        <div class="actions">
+          <button class="edit-button" (click)="editCategory(category)">Edit</button>
+          <button class="delete-button" (click)="deleteCategory(category.id)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  
