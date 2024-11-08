@@ -8,7 +8,7 @@ import { DepartmentService } from '../../../../service/department-service.servic
 @Component({
   selector: 'app-show-users',
   standalone: true,
-  imports: [CommonModule, JsonPipe, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './show-users.component.html',
   styleUrls: ['./show-users.component.css']
 })
@@ -26,12 +26,25 @@ export class ShowUsersComponent implements OnInit {
     this.fetchDepartments();
   }
 
+  // fetchUsers() {
+  //   this.http.get<any[]>('http://localhost:8000/api/admin/users').subscribe(
+  //     (data) => {
+  //       this.users = data.map(user => ({
+  //         ...user,
+  //         roles: user.roles.join(',') // Convert roles array to a string for display
+  //       }));
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching users', error);
+  //     }
+  //   );
+  // }
   fetchUsers() {
     this.http.get<any[]>('http://localhost:8000/api/admin/users').subscribe(
       (data) => {
         this.users = data.map(user => ({
           ...user,
-          roles: user.roles.join(', ') // Convert roles array to a string for display
+          roles: Array.isArray(user.roles) ? user.roles.join(',') : '' // Convert roles array to a string or set to empty if not an array
         }));
       },
       (error) => {
@@ -39,6 +52,7 @@ export class ShowUsersComponent implements OnInit {
       }
     );
   }
+
 
   fetchDepartments() {
     this.departmentService.getDepartments().subscribe(
@@ -116,7 +130,7 @@ export class ShowUsersComponent implements OnInit {
   
   deleteUser(id: number) {
     if (confirm('Are you sure you want to delete this user?')) {
-      this.http.delete(`http://localhost:8000/api/admin/users/delete/${id}`).subscribe(
+      this.http.delete(`http://localhost:8000/api/admin/user/delete/${id}`).subscribe(
         () => {
           alert('User deleted successfully!');
           this.fetchUsers();
