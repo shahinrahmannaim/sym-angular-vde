@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TestApiSignUpController extends AbstractController
 {
-    #[Route('api/register/test', name: 'api_register', methods: ['POST'])]
+    #[Route('/api/register/test', name: 'api_register', methods: ['POST'])]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer): JsonResponse
     {
         $data = json_decode($request->getContent(), true);

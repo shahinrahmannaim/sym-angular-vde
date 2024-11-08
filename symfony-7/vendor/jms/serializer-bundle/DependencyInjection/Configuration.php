@@ -10,16 +10,12 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
-/**
- * @internal
- */
+/** @internal */
 final class Configuration implements ConfigurationInterface
 {
     private $debug;
 
-    /**
-     * @param bool $debug
-     */
+    /** @param bool $debug */
     public function __construct($debug = false)
     {
         $this->debug = $debug;
@@ -90,6 +86,10 @@ final class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('default_format')->defaultValue(\DateTime::RFC3339)->end()
+                            ->arrayNode('default_deserialization_formats')
+                                ->scalarPrototype()->end()
+                                ->defaultValue([])
+                            ->end()
                             ->scalarNode('default_timezone')->defaultValue(date_default_timezone_get())->end()
                             ->scalarNode('cdata')->defaultTrue()->end()
                         ->end()

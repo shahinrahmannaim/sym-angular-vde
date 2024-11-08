@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace ApiPlatform\Metadata\Resource\Factory;
 
+use ApiPlatform\Doctrine\Odm\State\Options as DoctrineOdmOptions;
+use ApiPlatform\Doctrine\Orm\State\Options as DoctrineOrmOptions;
 use ApiPlatform\Metadata\FilterInterface;
-use ApiPlatform\Metadata\HeaderParameterInterface;
 use ApiPlatform\Metadata\HttpOperation;
+use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Parameter;
 use ApiPlatform\Metadata\Parameters;
 use ApiPlatform\Metadata\QueryParameter;
@@ -54,6 +56,7 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
         $resourceMetadataCollection = $this->decorated?->create($resourceClass) ?? new ResourceMetadataCollection($resourceClass);
 
         foreach ($resourceMetadataCollection as $i => $resource) {
+            $resourceClass = $resource->getClass();
             $operations = $resource->getOperations();
 
             $internalPriority = -1;
@@ -61,7 +64,7 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
                 $parameters = $operation->getParameters() ?? new Parameters();
                 foreach ($parameters as $key => $parameter) {
                     $key = $parameter->getKey() ?? $key;
-                    $parameter = $this->setDefaults($key, $parameter, $resourceClass);
+                    $parameter = $this->setDefaults($key, $parameter, $resourceClass, $operation);
                     $priority = $parameter->getPriority() ?? $internalPriority--;
                     $parameters->add($key, $parameter->withPriority($priority));
                 }
@@ -87,7 +90,7 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
                 $parameters = $operation->getParameters() ?? new Parameters();
                 foreach ($operation->getParameters() ?? [] as $key => $parameter) {
                     $key = $parameter->getKey() ?? $key;
-                    $parameter = $this->setDefaults($key, $parameter, $resourceClass);
+                    $parameter = $this->setDefaults($key, $parameter, $resourceClass, $operation);
                     $priority = $parameter->getPriority() ?? $internalPriority--;
                     $parameters->add($key, $parameter->withPriority($priority));
                 }
@@ -101,7 +104,7 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
         return $resourceMetadataCollection;
     }
 
-    private function setDefaults(string $key, Parameter $parameter, string $resourceClass): Parameter
+    private function setDefaults(string $key, Parameter $parameter, string $resourceClass, Operation $operation): Parameter
     {
         if (null === $parameter->getKey()) {
             $parameter = $parameter->withKey($key);
@@ -117,41 +120,13 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
         }
 
         // Read filter description to populate the Parameter
-        $description = $filter instanceof FilterInterface ? $filter->getDescription($resourceClass) : [];
+        $description = $filter instanceof FilterInterface ? $filter->getDescription($this->getFilterClass($operation)) : [];
         if (($schema = $description[$key]['schema'] ?? null) && null === $parameter->getSchema()) {
             $parameter = $parameter->withSchema($schema);
         }
 
-        if (null === $parameter->getProperty() && ($property = $description[$key]['property'] ?? null)) {
-            $parameter = $parameter->withProperty($property);
-        }
-
         if (null === $parameter->getRequired() && ($required = $description[$key]['required'] ?? null)) {
             $parameter = $parameter->withRequired($required);
-        }
-
-        if (null === $parameter->getOpenApi() && $openApi = $description[$key]['openapi'] ?? null) {
-            if ($openApi instanceof OpenApiParameter) {
-                $parameter = $parameter->withOpenApi($openApi);
-            } elseif (\is_array($openApi)) {
-                $schema = $schema ?? $openApi['schema'] ?? [];
-                $parameter = $parameter->withOpenApi(new OpenApiParameter(
-                    $key,
-                    $parameter instanceof HeaderParameterInterface ? 'header' : 'query',
-                    $description[$key]['description'] ?? '',
-                    $description[$key]['required'] ?? $openApi['required'] ?? false,
-                    $openApi['deprecated'] ?? false,
-                    $openApi['allowEmptyValue'] ?? true,
-                    $schema,
-                    $openApi['style'] ?? null,
-                    $openApi['explode'] ?? ('array' === ($schema['type'] ?? null)),
-                    $openApi['allowReserved'] ?? false,
-                    $openApi['example'] ?? null,
-                    isset(
-                        $openApi['examples']
-                    ) ? new \ArrayObject($openApi['examples']) : null
-                ));
-            }
         }
 
         $schema = $parameter->getSchema() ?? (($openApi = $parameter->getOpenApi()) ? $openApi->getSchema() : null);
@@ -242,7 +217,7 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
             }
 
             $filter = $this->filterLocator->get($filter);
-            foreach ($filter->getDescription($operation->getClass()) as $parameterName => $definition) {
+            foreach ($filter->getDescription($this->getFilterClass($operation)) as $parameterName => $definition) {
                 $key = $parameterName;
                 $required = $definition['required'] ?? false;
                 $schema = $definition['schema'] ?? null;
@@ -295,5 +270,20 @@ final class ParameterResourceMetadataCollectionFactory implements ResourceMetada
         }
 
         return $parameters;
+    }
+
+    private function getFilterClass(Operation $operation): ?string
+    {
+        $stateOptions = $operation->getStateOptions();
+
+        if ($stateOptions instanceof DoctrineOrmOptions) {
+            return $stateOptions->getEntityClass();
+        }
+
+        if ($stateOptions instanceof DoctrineOdmOptions) {
+            return $stateOptions->getDocumentClass();
+        }
+
+        return $operation->getClass();
     }
 }
