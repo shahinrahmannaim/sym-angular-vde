@@ -5,7 +5,7 @@ pipeline {
         stage('Clone Repositories') {
             steps {
                 // Clone all repositories
-                git url: 'https://github.com/shahinrahmannaim/sym-angular-vde', branch: 'main'
+                git url: 'https://github.com/shahinrahmannaim/sym-angular-vde.git', branch: 'main'
                 
             }
         }
