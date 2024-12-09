@@ -1,68 +1,78 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { CategoryService } from '../admin/services/category-service/category.service';
+
 
 @Component({
   selector: 'app-add-recipe',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './add-recipe.component.html',
   styleUrls: ['./add-recipe.component.css']
 })
-export class AddRecipeComponent {
-  thumbnailFile: File | null = null;  // Class property to store the selected file
+export class AddRecipeComponent implements OnInit {
+  recipe: any = {
+    title: '',
+    thumbnailFile: null,
+    duration: '',
+    content: '',
+    category: ''
+  };
+  categories: any[] = []; // To hold the fetched categories
 
   constructor(
     private http: HttpClient,
-    private router: Router
-  ) {}
+    private router: Router,
+    private categoryService: CategoryService
+  ) { }
 
-  // Handle file selection
-  onFileSelected(event: any) {
-    this.thumbnailFile = event.target.files[0];  // Store the selected file in the component
-    console.log('File selected:', this.thumbnailFile);
+  ngOnInit(): void {
+    this.fetchCategories(); // Fetch categories on initialization
   }
 
-  // Handle form submission
+  fetchCategories() {
+    this.categoryService.getCategories().subscribe(
+      (data: any[]) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
+
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.recipe.thumbnailFile = input.files[0]; // Assign file to the recipe's thumbnailFile property
+    } else {
+      console.error('No file selected or file input is undefined');
+    }
+  }
+
   onSubmit(form: any) {
     if (form.valid) {
       const formData = new FormData();
-      formData.append('title', form.value.title);
-      
-      if (this.thumbnailFile) {
-        formData.append('thumbnailFile', this.thumbnailFile);  // Append the file only if it's selected
-      } else {
-        console.log('No thumbnail file selected');
-      }
+      formData.append('title', this.recipe.title);
+      formData.append('thumbnailFile', this.recipe.thumbnailFile); // Thumbnail file
+      formData.append('duration', this.recipe.duration);
+      formData.append('content', this.recipe.content);
+      formData.append('category', this.recipe.category); // Selected category
 
-      formData.append('duration', form.value.duration);
-      formData.append('content', form.value.content);
-      formData.append('category', form.value.category);
-
-      console.log('Form validity:', form.valid);
-      console.log('Form values:', form.value);
-      
       this.http.post('http://localhost:8000/api/recette/create', formData).subscribe(
         (res: any) => {
           console.log('Recipe added successfully', res);
+          alert('Recipe added successfully');
           this.router.navigate(['recipes']);
         },
         (error) => {
           console.error('Error adding recipe:', error);
-          if (error.status === 401) {
-            alert('Unauthorized. Please log in again.');
-            this.router.navigate(['/login']);
-          } else if (error.status === 500) {
-            alert('An error occurred on the server. Please check the backend logs.');
-          } else {
-            alert('An error occurred. Please check the console for details.');
-          }
+          alert('An error occurred while adding the recipe. Please check the console for details.');
         }
       );
-    } else {
-      console.log('Form is invalid');
     }
   }
 }

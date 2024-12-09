@@ -3,7 +3,6 @@ import { AdminDashboardComponent } from '../component/admin-dashboard/admin-dash
 import { ShowUsersComponent} from '../component/alluser/showuser/showusers.component';
 import { ShowRecipeComponent } from '../component/allrecipe/showrecipe/showrecipe.component';
 import { authGuard } from '../../auth.guard';
-import { EditUserComponent } from '../component/alluser/edituser/edit-user.component';
 import { DetailsRecipeComponent } from '../component/allrecipe/details-recipe/details-recipe.component';
 import { AddRecipeComponent } from '../component/allrecipe/add-recipe/add-recipe.component';
 import { EditRecipeComponent } from '../component/allrecipe/edit-recipe/edit-recipe.component';

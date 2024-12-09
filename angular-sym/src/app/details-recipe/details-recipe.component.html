@@ -6,8 +6,12 @@
   alt="{{ recipe?.title }}" 
   class="recipe-image" />
   <p>{{ recipe?.content }}</p>
+    <div class="recipe-meta">
+      <strong>Category:</strong>
+      <span>{{ categoryName }}</span>
+    </div>
   
-  <div class="recipe-meta">
+  <div>
     <span><strong>Duration:</strong> {{ recipe?.duration }} mins</span>
     <span><strong>Created At:</strong> {{ recipe?.createdAt | date: 'medium' }}</span>
     <span><strong>Updated At:</strong> {{ recipe?.updatedAt | date: 'medium' }}</span>

@@ -7,14 +7,10 @@ import { CustomInterceptor } from './custom.interceptor';
 
 
 
-
-
-
-
 export const appConfig: ApplicationConfig = {
   providers: [
-  provideHttpClient(withInterceptors([CustomInterceptor])),
-  provideZoneChangeDetection({ eventCoalescing: true }), 
-  provideRouter(routes)
-]
+    provideHttpClient(withInterceptors([CustomInterceptor])),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes)
+  ]
 };

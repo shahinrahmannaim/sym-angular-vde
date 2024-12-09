@@ -669,6 +669,13 @@
         <argument type="service" id=".service_locator.QaaoWjx.App\Controller\API\ApiSignupController"/>
       </call>
     </service>
+    <service id="App\Controller\API\EmailConfirmationController" class="App\Controller\API\EmailConfirmationController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.QaaoWjx.App\Controller\API\EmailConfirmationController"/>
+      </call>
+    </service>
     <service id="App\Controller\API\RecipesApiController" class="App\Controller\API\RecipesApiController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -695,6 +702,7 @@
       <tag name="container.service_subscriber"/>
       <argument type="service" id="App\Repository\UserRepository"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="mailer.mailer"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.QaaoWjx.App\Controller\API\adminApi\ApiUserController"/>
       </call>
@@ -855,7 +863,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.0fz4n_3"/>
+      <argument type="service" id=".service_locator.TXvBqzM"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -4134,7 +4142,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.0fz4n_3"/>
+      <argument type="service" id=".service_locator.TXvBqzM"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -11136,6 +11144,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\ApiSignupController" class="App\Controller\API\ApiSignupController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\ApiSignupController" class="App\Controller\API\ApiSignupController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\ApiSignupController" class="App\Controller\API\ApiSignupController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\EmailConfirmationController" class="App\Controller\API\EmailConfirmationController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\EmailConfirmationController" class="App\Controller\API\EmailConfirmationController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\API\EmailConfirmationController" class="App\Controller\API\EmailConfirmationController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\RecipesApiController" class="App\Controller\API\RecipesApiController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\RecipesApiController" class="App\Controller\API\RecipesApiController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\RecipesApiController" class="App\Controller\API\RecipesApiController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -11947,19 +11958,20 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.OPcyuNm" method="withContext"/>
     </service>
-    <service id=".service_locator.dYFqXlz" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.jTIY2sa" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="doctrine" type="service_closure" id="doctrine"/>
         <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
         <argument key="jwtManager" type="service_closure" id="lexik_jwt_authentication.jwt_manager"/>
+        <argument key="logger" type="service_closure" id="monolog.logger"/>
       </argument>
     </service>
-    <service id=".service_locator.dYFqXlz.App\Controller\API\ApiLoginController::login()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.jTIY2sa.App\Controller\API\ApiLoginController::login()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\API\ApiLoginController::login()"/>
       <argument>App\Controller\API\ApiLoginController::login()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.dYFqXlz" method="withContext"/>
+      <factory service=".service_locator.jTIY2sa" method="withContext"/>
     </service>
     <service id=".service_locator.__CzQUd" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
@@ -11973,6 +11985,12 @@
       <argument>App\Controller\API\ApiSignupController::register()</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.__CzQUd" method="withContext"/>
+    </service>
+    <service id=".service_locator.P.blNFL.App\Controller\API\EmailConfirmationController::confirmEmail()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\API\EmailConfirmationController::confirmEmail()"/>
+      <argument>App\Controller\API\EmailConfirmationController::confirmEmail()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.P.blNFL" method="withContext"/>
     </service>
     <service id=".service_locator.Tye6hqX" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
@@ -12039,23 +12057,23 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.a8DdLbZ" method="withContext"/>
     </service>
-    <service id=".service_locator.P.blNFL.App\Controller\API\TestApiSignUpController::confirmEmail()" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator_context" id="App\Controller\API\TestApiSignUpController::confirmEmail()"/>
-      <argument>App\Controller\API\TestApiSignUpController::confirmEmail()</argument>
-      <argument type="service" id="service_container"/>
-      <factory service=".service_locator.P.blNFL" method="withContext"/>
+    <service id=".service_locator.OxGaOcy" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
+      </argument>
     </service>
-    <service id=".service_locator.__CzQUd.App\Controller\API\adminApi\ApiUserController::createUser()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.OxGaOcy.App\Controller\API\adminApi\ApiUserController::createUser()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\API\adminApi\ApiUserController::createUser()"/>
       <argument>App\Controller\API\adminApi\ApiUserController::createUser()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.__CzQUd" method="withContext"/>
+      <factory service=".service_locator.OxGaOcy" method="withContext"/>
     </service>
-    <service id=".service_locator.__CzQUd.App\Controller\API\adminApi\ApiUserController::edit()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.OxGaOcy.App\Controller\API\adminApi\ApiUserController::edit()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\API\adminApi\ApiUserController::edit()"/>
       <argument>App\Controller\API\adminApi\ApiUserController::edit()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.__CzQUd" method="withContext"/>
+      <factory service=".service_locator.OxGaOcy" method="withContext"/>
     </service>
     <service id=".service_locator.P.blNFL.App\Controller\API\adminApi\CategoryApiController::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\API\adminApi\CategoryApiController::index()"/>
@@ -12307,7 +12325,7 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.mXDaS5b" method="withContext"/>
     </service>
-    <service id=".service_locator.0fz4n_3" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.TXvBqzM" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.4wc4Ag1.kernel::registerContainerConfiguration()"/>
@@ -12319,17 +12337,17 @@
         <argument key="App\Controller\API\ApiDepartmentController::show" type="service_closure" id=".service_locator.9nJkjCo.App\Controller\API\ApiDepartmentController::show()"/>
         <argument key="App\Controller\API\ApiDepartmentController::edit" type="service_closure" id=".service_locator.OPcyuNm.App\Controller\API\ApiDepartmentController::edit()"/>
         <argument key="App\Controller\API\ApiDepartmentController::delete" type="service_closure" id=".service_locator.OPcyuNm.App\Controller\API\ApiDepartmentController::delete()"/>
-        <argument key="App\Controller\API\ApiLoginController::login" type="service_closure" id=".service_locator.dYFqXlz.App\Controller\API\ApiLoginController::login()"/>
+        <argument key="App\Controller\API\ApiLoginController::login" type="service_closure" id=".service_locator.jTIY2sa.App\Controller\API\ApiLoginController::login()"/>
         <argument key="App\Controller\API\ApiSignupController::register" type="service_closure" id=".service_locator.__CzQUd.App\Controller\API\ApiSignupController::register()"/>
+        <argument key="App\Controller\API\EmailConfirmationController::confirmEmail" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\EmailConfirmationController::confirmEmail()"/>
         <argument key="App\Controller\API\RecipesApiController::index" type="service_closure" id=".service_locator.Tye6hqX.App\Controller\API\RecipesApiController::index()"/>
         <argument key="App\Controller\API\RecipesApiController::getRecipeById" type="service_closure" id=".service_locator.Tye6hqX.App\Controller\API\RecipesApiController::getRecipeById()"/>
         <argument key="App\Controller\API\RecipesApiController::create" type="service_closure" id=".service_locator.yxa1ZOH.App\Controller\API\RecipesApiController::create()"/>
         <argument key="App\Controller\API\RecipesApiController::edit" type="service_closure" id=".service_locator.yxa1ZOH.App\Controller\API\RecipesApiController::edit()"/>
         <argument key="App\Controller\API\RecipesApiController::delete" type="service_closure" id=".service_locator.4m4tlH4.App\Controller\API\RecipesApiController::delete()"/>
         <argument key="App\Controller\API\TestApiSignUpController::register" type="service_closure" id=".service_locator.a8DdLbZ.App\Controller\API\TestApiSignUpController::register()"/>
-        <argument key="App\Controller\API\TestApiSignUpController::confirmEmail" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\TestApiSignUpController::confirmEmail()"/>
-        <argument key="App\Controller\API\adminApi\ApiUserController::createUser" type="service_closure" id=".service_locator.__CzQUd.App\Controller\API\adminApi\ApiUserController::createUser()"/>
-        <argument key="App\Controller\API\adminApi\ApiUserController::edit" type="service_closure" id=".service_locator.__CzQUd.App\Controller\API\adminApi\ApiUserController::edit()"/>
+        <argument key="App\Controller\API\adminApi\ApiUserController::createUser" type="service_closure" id=".service_locator.OxGaOcy.App\Controller\API\adminApi\ApiUserController::createUser()"/>
+        <argument key="App\Controller\API\adminApi\ApiUserController::edit" type="service_closure" id=".service_locator.OxGaOcy.App\Controller\API\adminApi\ApiUserController::edit()"/>
         <argument key="App\Controller\API\adminApi\CategoryApiController::index" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\adminApi\CategoryApiController::index()"/>
         <argument key="App\Controller\API\adminApi\CategoryApiController::create" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\adminApi\CategoryApiController::create()"/>
         <argument key="App\Controller\API\adminApi\CategoryApiController::show" type="service_closure" id=".service_locator.CaBICwK.App\Controller\API\adminApi\CategoryApiController::show()"/>
@@ -12363,17 +12381,17 @@
         <argument key="App\Controller\API\ApiDepartmentController:show" type="service_closure" id=".service_locator.9nJkjCo.App\Controller\API\ApiDepartmentController::show()"/>
         <argument key="App\Controller\API\ApiDepartmentController:edit" type="service_closure" id=".service_locator.OPcyuNm.App\Controller\API\ApiDepartmentController::edit()"/>
         <argument key="App\Controller\API\ApiDepartmentController:delete" type="service_closure" id=".service_locator.OPcyuNm.App\Controller\API\ApiDepartmentController::delete()"/>
-        <argument key="App\Controller\API\ApiLoginController:login" type="service_closure" id=".service_locator.dYFqXlz.App\Controller\API\ApiLoginController::login()"/>
+        <argument key="App\Controller\API\ApiLoginController:login" type="service_closure" id=".service_locator.jTIY2sa.App\Controller\API\ApiLoginController::login()"/>
         <argument key="App\Controller\API\ApiSignupController:register" type="service_closure" id=".service_locator.__CzQUd.App\Controller\API\ApiSignupController::register()"/>
+        <argument key="App\Controller\API\EmailConfirmationController:confirmEmail" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\EmailConfirmationController::confirmEmail()"/>
         <argument key="App\Controller\API\RecipesApiController:index" type="service_closure" id=".service_locator.Tye6hqX.App\Controller\API\RecipesApiController::index()"/>
         <argument key="App\Controller\API\RecipesApiController:getRecipeById" type="service_closure" id=".service_locator.Tye6hqX.App\Controller\API\RecipesApiController::getRecipeById()"/>
         <argument key="App\Controller\API\RecipesApiController:create" type="service_closure" id=".service_locator.yxa1ZOH.App\Controller\API\RecipesApiController::create()"/>
         <argument key="App\Controller\API\RecipesApiController:edit" type="service_closure" id=".service_locator.yxa1ZOH.App\Controller\API\RecipesApiController::edit()"/>
         <argument key="App\Controller\API\RecipesApiController:delete" type="service_closure" id=".service_locator.4m4tlH4.App\Controller\API\RecipesApiController::delete()"/>
         <argument key="App\Controller\API\TestApiSignUpController:register" type="service_closure" id=".service_locator.a8DdLbZ.App\Controller\API\TestApiSignUpController::register()"/>
-        <argument key="App\Controller\API\TestApiSignUpController:confirmEmail" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\TestApiSignUpController::confirmEmail()"/>
-        <argument key="App\Controller\API\adminApi\ApiUserController:createUser" type="service_closure" id=".service_locator.__CzQUd.App\Controller\API\adminApi\ApiUserController::createUser()"/>
-        <argument key="App\Controller\API\adminApi\ApiUserController:edit" type="service_closure" id=".service_locator.__CzQUd.App\Controller\API\adminApi\ApiUserController::edit()"/>
+        <argument key="App\Controller\API\adminApi\ApiUserController:createUser" type="service_closure" id=".service_locator.OxGaOcy.App\Controller\API\adminApi\ApiUserController::createUser()"/>
+        <argument key="App\Controller\API\adminApi\ApiUserController:edit" type="service_closure" id=".service_locator.OxGaOcy.App\Controller\API\adminApi\ApiUserController::edit()"/>
         <argument key="App\Controller\API\adminApi\CategoryApiController:index" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\adminApi\CategoryApiController::index()"/>
         <argument key="App\Controller\API\adminApi\CategoryApiController:create" type="service_closure" id=".service_locator.P.blNFL.App\Controller\API\adminApi\CategoryApiController::create()"/>
         <argument key="App\Controller\API\adminApi\CategoryApiController:show" type="service_closure" id=".service_locator.CaBICwK.App\Controller\API\adminApi\CategoryApiController::show()"/>
@@ -13098,6 +13116,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.QaaoWjx" method="withContext"/>
     </service>
+    <service id=".service_locator.QaaoWjx.App\Controller\API\EmailConfirmationController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\API\EmailConfirmationController"/>
+      <argument>App\Controller\API\EmailConfirmationController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.QaaoWjx" method="withContext"/>
+    </service>
     <service id=".service_locator.QaaoWjx.App\Controller\API\RecipesApiController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\API\RecipesApiController"/>
       <argument>App\Controller\API\RecipesApiController</argument>
@@ -13422,6 +13446,7 @@
           <argument>App\Controller\API\ApiDepartmentController</argument>
           <argument>App\Controller\API\ApiLoginController</argument>
           <argument>App\Controller\API\ApiSignupController</argument>
+          <argument>App\Controller\API\EmailConfirmationController</argument>
           <argument>App\Controller\API\RecipesApiController</argument>
           <argument>App\Controller\API\TestApiSignUpController</argument>
           <argument>App\Controller\API\adminApi\AdminDashboardController</argument>
@@ -15367,7 +15392,7 @@
     <service id="Symfony\WebpackEncoreBundle\Asset\EntrypointLookupInterface" alias="webpack_encore.entrypoint_lookup[_default]"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.0fz4n_3"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.TXvBqzM"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -15498,12 +15523,13 @@
     <service id=".service_locator.4KsIGyf" alias=".service_locator.P.blNFL"/>
     <service id=".service_locator.638N3K7" alias=".service_locator.9nJkjCo"/>
     <service id=".service_locator.v_nsq72" alias=".service_locator.OPcyuNm"/>
-    <service id=".service_locator.8j7LcDG" alias=".service_locator.dYFqXlz"/>
+    <service id=".service_locator.DlNhcEa" alias=".service_locator.jTIY2sa"/>
     <service id=".service_locator.6yrOe37" alias=".service_locator.__CzQUd"/>
     <service id=".service_locator.VoeOrPq" alias=".service_locator.Tye6hqX"/>
     <service id=".service_locator.e8xB77n" alias=".service_locator.yxa1ZOH"/>
     <service id=".service_locator.OIqGEt0" alias=".service_locator.4m4tlH4"/>
     <service id=".service_locator.TLH7t6x" alias=".service_locator.a8DdLbZ"/>
+    <service id=".service_locator.hJ8CjaJ" alias=".service_locator.OxGaOcy"/>
     <service id=".service_locator.Doc0dXW" alias=".service_locator.CaBICwK"/>
     <service id=".service_locator.EkLv5li" alias=".service_locator.ybjbtEe"/>
     <service id=".service_locator.KUCAjtX" alias=".service_locator.DFJhAfZ"/>

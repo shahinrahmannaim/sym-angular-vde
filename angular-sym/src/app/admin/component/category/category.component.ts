@@ -6,7 +6,7 @@ import { CategoryService } from '../../services/category-service/category.servic
 @Component({
   selector: 'app-admin-category',
   standalone: true,
-  imports: [CommonModule, FormsModule, JsonPipe],
+  imports: [CommonModule, FormsModule],
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })

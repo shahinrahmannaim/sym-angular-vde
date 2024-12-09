@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { JWTTokenService } from '../jwt-token.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -14,12 +14,10 @@ import { LayoutComponent } from '../layout/layout.component';
   styleUrls: ['login.component.css']
 })
 export class LoginComponent {
-
   loginObj: any = {
     email: "",
     password: ""
   };
-  
 
   constructor(
     private http: HttpClient,
@@ -31,48 +29,45 @@ export class LoginComponent {
     this.http.post('http://localhost:8000/api/login', this.loginObj).subscribe(
       (res: any) => {
         console.log('Response from API:', res);
-  
+
         if (res.token) {
-          // Set token and decode it
           this.jwtService.setToken(res.token);
           this.jwtService.decodeToken();
-  
-          // Extract roles
+
           const roles = this.jwtService.extractRoles(this.jwtService.getDecodeToken() || []);
           console.log('Extracted roles:', roles);
-  
-          // Check for roles
+
           if (roles.includes('ROLE_ADMIN')) {
             this.router.navigate(['/admin']);
             alert('Admin login success');
-            return;  // Exit the function after admin login
+            return;
           }
-  
+
           if (roles.includes('ROLE_USER')) {
             this.router.navigate(['/recipes']);
             alert('User login success');
-            return;  // Exit the function after user login
+            return;
           }
-  
-          // If no valid role is found, show an error
-          alert('No valid role found');
-          this.router.navigate(['/login']);
-          
+
+          // alert('No valid role found');
+          // this.router.navigate(['/login']);
         } else {
           alert("Login failed - no token provided");
         }
       },
       (error) => {
-        // Handle the case where the user does not exist
-        if (error.status === 404) {
+        console.log('Error response from API:', error);
+
+        if (error.status === 403) {
+          alert('Please verify your account by clicking the confirmation link in your email.');
+        } else if (error.status === 404) {
           alert('User does not exist');
         } else {
           console.error('Error during login:', error);
           alert('Incorrect User Credentials');
         }
+       
       }
     );
   }
-  
-  
 }

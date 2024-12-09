@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { CategoryService } from '../../../services/category-service/category.service';
 
 @Component({
-  selector: 'app-add-recipe',
+  selector: 'app-admin-add-recipe',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './add-recipe.component.html',

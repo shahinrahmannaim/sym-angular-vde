@@ -1,5 +1,5 @@
 <?php
-
+// src/Controller/API/adminApi/ApiUserController.php
 namespace App\Controller\API\adminApi;
 
 use App\Entity\Department;
@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -20,11 +22,13 @@ class ApiUserController extends AbstractController
 {
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
+    private MailerInterface $mailer;
 
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
+        $this->mailer = $mailer;
     }
 
     #[Route('/users', name: 'index', methods: ['GET'])]
@@ -57,56 +61,70 @@ class ApiUserController extends AbstractController
     }
 
     #[Route('/user/create', name: 'create_user', methods: ['POST'])]
-    public function createUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function createUser(Request $request, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
         $username = $data['username'] ?? '';
         $email = $data['email'] ?? '';
         $password = $data['password'] ?? '';
-        $departmentId = $data['department_id'] ?? null; // Get department_id from request
+        $departmentId = $data['department_id'] ?? null;
+        $roles = $data['roles'] ?? ['ROLE_USER']; // Default role if not provided
 
-        // Validate the received data
-        if (empty($username) || empty($email) || empty($password)) {
+        // Validate required fields
+        if (empty($username) || empty($email) || empty($password) || empty($departmentId)) {
             return $this->json(['error' => 'All fields are required'], Response::HTTP_BAD_REQUEST);
         }
 
-        // Check if the username or email already exists
-        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
-        if ($existingUser) {
+        // Check for existing username or email
+        if ($this->userRepository->findOneBy(['username' => $username])) {
             return $this->json(['error' => 'Username already exists'], Response::HTTP_BAD_REQUEST);
         }
 
-        $existingEmail = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
-        if ($existingEmail) {
+        if ($this->userRepository->findOneBy(['email' => $email])) {
             return $this->json(['error' => 'Email already exists'], Response::HTTP_BAD_REQUEST);
         }
 
-        // Create and persist the new user
+        // Create the new user
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setPassword($passwordHasher->hashPassword($user, $password));
+        $user->setRoles($roles);
+        $user->setVerified(false); // Set user as unverified initially
 
-        // Set the default role to ROLE_USER
-      
-
-        // Set the department if provided
-        if ($departmentId) {
-            $department = $entityManager->getRepository(Department::class)->find($departmentId);
-            if ($department) {
-                $user->setDepartment($department);
-            } else {
-                return $this->json(['error' => 'Invalid department ID'], Response::HTTP_BAD_REQUEST);
-            }
+        // Set the department
+        $department = $this->entityManager->getRepository(Department::class)->find($departmentId);
+        if ($department) {
+            $user->setDepartment($department);
         } else {
-            return $this->json(['error' => 'Department ID is required'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['error' => 'Invalid department ID'], Response::HTTP_BAD_REQUEST);
         }
 
-        $entityManager->persist($user);
-        $entityManager->flush();
+        // Persist and flush the new user
+        $this->entityManager->persist($user);
+        try {
+            $this->entityManager->flush();
 
-        return $this->json(['message' => 'User registered successfully'], Response::HTTP_CREATED);
+            // Send the confirmation email
+            $this->sendConfirmationEmail($user->getEmail());
+
+            return $this->json(['message' => 'User created successfully. Confirmation email sent.'], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Failed to create user: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function sendConfirmationEmail(string $email): void
+    {
+        $confirmationLink = 'http://localhost:8000/email/confirm?email=' . urlencode($email);
+        $emailMessage = (new Email())
+            ->from('no-reply@yourdomain.com')
+            ->to($email)
+            ->subject('Email Confirmation')
+            ->html('<p>Please confirm your registration by clicking <a href="' . $confirmationLink . '">here</a>.</p>');
+
+        $this->mailer->send($emailMessage);
     }
 
     #[Route('/user/{id}', name: 'get_user', methods: ['GET'])]
@@ -135,7 +153,7 @@ class ApiUserController extends AbstractController
     }
 
     #[Route('/user/edit/{id}', name: 'edit_user', methods: ['PUT'])]
-    public function edit(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, int $id): JsonResponse
+    public function edit(Request $request, UserPasswordHasherInterface $passwordHasher, int $id): JsonResponse
     {
         $user = $this->userRepository->find($id);
         if (!$user) {
@@ -156,12 +174,12 @@ class ApiUserController extends AbstractController
         }
     
         // Check for existing username/email (excluding current user)
-        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+        $existingUser = $this->userRepository->findOneBy(['username' => $username]);
         if ($existingUser && $existingUser->getId() !== $user->getId()) {
             return $this->json(['error' => 'Username already exists'], Response::HTTP_BAD_REQUEST);
         }
     
-        $existingEmail = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+        $existingEmail = $this->userRepository->findOneBy(['email' => $email]);
         if ($existingEmail && $existingEmail->getId() !== $user->getId()) {
             return $this->json(['error' => 'Email already exists'], Response::HTTP_BAD_REQUEST);
         }
@@ -181,7 +199,7 @@ class ApiUserController extends AbstractController
     
         // Update department if provided
         if ($departmentId) {
-            $department = $entityManager->getRepository(Department::class)->find($departmentId);
+            $department = $this->entityManager->getRepository(Department::class)->find($departmentId);
             if ($department) {
                 $user->setDepartment($department);
             } else {
@@ -189,13 +207,11 @@ class ApiUserController extends AbstractController
             }
         }
     
-        $entityManager->flush();
+        $this->entityManager->flush();
     
         return $this->json(['message' => 'User updated successfully'], Response::HTTP_OK);
     }
     
-    
-
     #[Route('/user/delete/{id}', name: 'delete_user', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
@@ -210,3 +226,5 @@ class ApiUserController extends AbstractController
         return new JsonResponse(['message' => 'User deleted successfully.'], Response::HTTP_OK);
     }
 }
+
+

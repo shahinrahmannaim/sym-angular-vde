@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/categories')]
+#[Route('/api')]
 
 class CategoryApiController extends AbstractController
 {
-    #[Route('', name: 'api_category_index', methods: ['GET'])]
+    #[Route('/categories', name: 'api_category_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): JsonResponse
     {
         $categories = $entityManager->getRepository(Category::class)->findAll();
@@ -33,7 +33,7 @@ class CategoryApiController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/create', name: 'api_category_create', methods: ['POST'])]
+    #[Route('/category/create', name: 'api_category_create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -50,7 +50,7 @@ class CategoryApiController extends AbstractController
         ], Response::HTTP_CREATED);
     }
 
-    #[Route('/{id}', name: 'api_category_show', methods: ['GET'])]
+    #[Route('/category/{id}', name: 'api_category_show', methods: ['GET'])]
     public function show(Category $category): JsonResponse
     {
         return $this->json([
@@ -59,7 +59,7 @@ class CategoryApiController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'api_category_edit', methods: ['PUT'])]
+    #[Route('/category/edit/{id}', name: 'api_category_edit', methods: ['PUT'])]
     public function edit(Request $request, Category $category, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -79,7 +79,7 @@ class CategoryApiController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'api_category_delete', methods: ['DELETE'])]
+    #[Route('/category/delete/{id}', name: 'api_category_delete', methods: ['DELETE'])]
     public function delete(Category $category, EntityManagerInterface $entityManager): JsonResponse
     {
         $entityManager->remove($category);

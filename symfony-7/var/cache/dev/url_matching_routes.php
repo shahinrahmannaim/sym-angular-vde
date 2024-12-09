@@ -17,15 +17,15 @@ return [
         '/departments' => [[['_route' => 'api_department_index', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::index'], null, ['GET' => 0], null, false, false, null]],
         '/departments/create' => [[['_route' => 'api_department_create', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::create'], null, ['POST' => 0], null, false, false, null]],
         '/api/login' => [[['_route' => 'api_login', '_controller' => 'App\\Controller\\API\\ApiLoginController::login'], null, ['POST' => 0], null, false, false, null]],
+        '/email/confirm' => [[['_route' => 'api_confirm', '_controller' => 'App\\Controller\\API\\EmailConfirmationController::confirmEmail'], null, ['GET' => 0], null, false, false, null]],
         '/api/recette' => [[['_route' => 'app_api_recipesapi_index', '_controller' => 'App\\Controller\\API\\RecipesApiController::index'], null, ['GET' => 0], null, false, false, null]],
         '/api/recette/create' => [[['_route' => 'app_api_recipesapi_create', '_controller' => 'App\\Controller\\API\\RecipesApiController::create'], null, ['POST' => 0], null, false, false, null]],
         '/api/register/test' => [[['_route' => 'api_register', '_controller' => 'App\\Controller\\API\\TestApiSignUpController::register'], null, ['POST' => 0], null, false, false, null]],
-        '/email/confirm' => [[['_route' => 'api_confirm', '_controller' => 'App\\Controller\\API\\TestApiSignUpController::confirmEmail'], null, ['GET' => 0], null, false, false, null]],
         '/api/dashboard' => [[['_route' => 'api_app_dashboard', '_controller' => 'App\\Controller\\API\\adminApi\\AdminDashboardController::index'], null, null, null, false, false, null]],
         '/api/admin/users' => [[['_route' => 'index', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::index'], null, ['GET' => 0], null, false, false, null]],
         '/api/admin/user/create' => [[['_route' => 'create_user', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::createUser'], null, ['POST' => 0], null, false, false, null]],
         '/api/categories' => [[['_route' => 'api_category_index', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::index'], null, ['GET' => 0], null, false, false, null]],
-        '/api/categories/create' => [[['_route' => 'api_category_create', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::create'], null, ['POST' => 0], null, false, false, null]],
+        '/api/category/create' => [[['_route' => 'api_category_create', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::create'], null, ['POST' => 0], null, false, false, null]],
         '/admin/category/create' => [[['_route' => 'admin.category.create', '_controller' => 'App\\Controller\\Admin\\CategoryController::create'], null, null, null, false, false, null]],
         '/admin/recettes/create' => [[['_route' => 'admin.recipe.create', '_controller' => 'App\\Controller\\Admin\\RecipeController::create'], null, null, null, false, false, null]],
         '/admin/users/create' => [[['_route' => 'admin_user.create', '_controller' => 'App\\Controller\\Admin\\UserController::create'], null, null, null, false, false, null]],
@@ -53,87 +53,87 @@ return [
                             .'|docs(?:\\.([^/]++))?(*:169)'
                             .'|c(?'
                                 .'|ontexts/([^.]+)(?:\\.(jsonld))?(*:211)'
-                                .'|ategories/(?'
-                                    .'|([^/]++)(*:240)'
-                                    .'|edit/([^/]++)(*:261)'
-                                    .'|delete/([^/]++)(*:284)'
+                                .'|ategory/(?'
+                                    .'|([^/]++)(*:238)'
+                                    .'|edit/([^/]++)(*:259)'
+                                    .'|delete/([^/]++)(*:282)'
                                 .')'
                             .')'
                             .'|validation_errors/([^/]++)(?'
-                                .'|(*:323)'
+                                .'|(*:321)'
                             .')'
                             .'|blogs(?'
-                                .'|/([^/\\.]++)(?:\\.([^/]++))?(*:366)'
+                                .'|/([^/\\.]++)(?:\\.([^/]++))?(*:364)'
                                 .'|(?:\\.([^/]++))?(?'
-                                    .'|(*:392)'
+                                    .'|(*:390)'
                                 .')'
                                 .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                    .'|(*:430)'
+                                    .'|(*:428)'
                                 .')'
                             .')'
                             .'|recette/(?'
-                                .'|([0-9]+)(*:459)'
-                                .'|edit/([^/]++)(*:480)'
-                                .'|delete/([0-9]+)(*:503)'
+                                .'|([0-9]+)(*:457)'
+                                .'|edit/([^/]++)(*:478)'
+                                .'|delete/([0-9]+)(*:501)'
                             .')'
                             .'|admin/user/(?'
-                                .'|([^/]++)(*:534)'
-                                .'|edit/([^/]++)(*:555)'
-                                .'|delete/([^/]++)(*:578)'
+                                .'|([^/]++)(*:532)'
+                                .'|edit/([^/]++)(*:553)'
+                                .'|delete/([^/]++)(*:576)'
                             .')'
                         .')'
                     .')'
                     .'|dmin(?'
-                        .'|(?:/([^/]++))?(*:610)'
+                        .'|(?:/([^/]++))?(*:608)'
                         .'|/(?'
                             .'|category(?'
-                                .'|(*:633)'
+                                .'|(*:631)'
                                 .'|/([0-9]+)(?'
-                                    .'|(*:653)'
+                                    .'|(*:651)'
                                 .')'
                             .')'
                             .'|recettes(?'
-                                .'|(*:674)'
+                                .'|(*:672)'
                                 .'|/([0-9]+)(?'
-                                    .'|(*:694)'
+                                    .'|(*:692)'
                                 .')'
                             .')'
                             .'|users(?'
-                                .'|(*:712)'
-                                .'|edit/([0-9]+)(*:733)'
-                                .'|/([0-9]+)(*:750)'
+                                .'|(*:710)'
+                                .'|edit/([0-9]+)(*:731)'
+                                .'|/([0-9]+)(*:748)'
                             .')'
                         .')'
-                        .'|(*:760)'
+                        .'|(*:758)'
                     .')'
                 .')'
                 .'|/_(?'
-                    .'|error/(\\d+)(?:\\.([^/]++))?(*:801)'
-                    .'|wdt/([^/]++)(*:821)'
+                    .'|error/(\\d+)(?:\\.([^/]++))?(*:799)'
+                    .'|wdt/([^/]++)(*:819)'
                     .'|profiler/(?'
-                        .'|font/([^/\\.]++)\\.woff2(*:863)'
+                        .'|font/([^/\\.]++)\\.woff2(*:861)'
                         .'|([^/]++)(?'
                             .'|/(?'
-                                .'|search/results(*:900)'
-                                .'|router(*:914)'
+                                .'|search/results(*:898)'
+                                .'|router(*:912)'
                                 .'|exception(?'
-                                    .'|(*:934)'
-                                    .'|\\.css(*:947)'
+                                    .'|(*:932)'
+                                    .'|\\.css(*:945)'
                                 .')'
                             .')'
-                            .'|(*:957)'
+                            .'|(*:955)'
                         .')'
                     .')'
                 .')'
                 .'|/department(?'
                     .'|s/(?'
-                        .'|([^/]++)(*:995)'
-                        .'|edit/([^/]++)(*:1016)'
-                        .'|delete/([^/]++)(*:1040)'
+                        .'|([^/]++)(*:993)'
+                        .'|edit/([^/]++)(*:1014)'
+                        .'|delete/([^/]++)(*:1038)'
                     .')'
                     .'|/(?'
-                        .'|edit/([^/]++)(*:1067)'
-                        .'|delete/([^/]++)(*:1091)'
+                        .'|edit/([^/]++)(*:1065)'
+                        .'|delete/([^/]++)(*:1089)'
                     .')'
                 .')'
             .')/?$}sDu',
@@ -145,58 +145,58 @@ return [
         138 => [[['_route' => 'api_entrypoint', '_controller' => 'api_platform.action.entrypoint', '_format' => '', '_api_respond' => 'true', 'index' => 'index'], ['index', '_format'], ['GET' => 0, 'HEAD' => 1], null, false, true, null]],
         169 => [[['_route' => 'api_doc', '_controller' => 'api_platform.action.documentation', '_format' => '', '_api_respond' => 'true'], ['_format'], ['GET' => 0, 'HEAD' => 1], null, false, true, null]],
         211 => [[['_route' => 'api_jsonld_context', '_controller' => 'api_platform.jsonld.action.context', '_format' => 'jsonld', '_api_respond' => 'true'], ['shortName', '_format'], ['GET' => 0, 'HEAD' => 1], null, false, true, null]],
-        240 => [[['_route' => 'api_category_show', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        261 => [[['_route' => 'api_category_edit', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::edit'], ['id'], ['PUT' => 0], null, false, true, null]],
-        284 => [[['_route' => 'api_category_delete', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        323 => [
+        238 => [[['_route' => 'api_category_show', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        259 => [[['_route' => 'api_category_edit', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::edit'], ['id'], ['PUT' => 0], null, false, true, null]],
+        282 => [[['_route' => 'api_category_delete', '_controller' => 'App\\Controller\\API\\adminApi\\CategoryApiController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        321 => [
             [['_route' => '_api_validation_errors_problem', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'ApiPlatform\\Validator\\Exception\\ValidationException', '_api_operation_name' => '_api_validation_errors_problem'], ['id'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_validation_errors_hydra', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'ApiPlatform\\Validator\\Exception\\ValidationException', '_api_operation_name' => '_api_validation_errors_hydra'], ['id'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_validation_errors_jsonapi', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'ApiPlatform\\Validator\\Exception\\ValidationException', '_api_operation_name' => '_api_validation_errors_jsonapi'], ['id'], ['GET' => 0], null, false, true, null],
         ],
-        366 => [[['_route' => '_api_/blogs/{id}{._format}_get', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Blog', '_api_operation_name' => '_api_/blogs/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        392 => [
+        364 => [[['_route' => '_api_/blogs/{id}{._format}_get', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Blog', '_api_operation_name' => '_api_/blogs/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        390 => [
             [['_route' => '_api_/blogs{._format}_get_collection', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Blog', '_api_operation_name' => '_api_/blogs{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/blogs{._format}_post', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Blog', '_api_operation_name' => '_api_/blogs{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        430 => [
+        428 => [
             [['_route' => '_api_/blogs/{id}{._format}_put', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Blog', '_api_operation_name' => '_api_/blogs/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/blogs/{id}{._format}_patch', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Blog', '_api_operation_name' => '_api_/blogs/{id}{._format}_patch'], ['id', '_format'], ['PATCH' => 0], null, false, true, null],
             [['_route' => '_api_/blogs/{id}{._format}_delete', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => true, '_api_resource_class' => 'App\\Entity\\Blog', '_api_operation_name' => '_api_/blogs/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        459 => [[['_route' => 'app_api_recipesapi_getrecipebyid', '_controller' => 'App\\Controller\\API\\RecipesApiController::getRecipeById'], ['id'], ['GET' => 0], null, false, true, null]],
-        480 => [[['_route' => 'app_api_recipesapi_edit', '_controller' => 'App\\Controller\\API\\RecipesApiController::edit'], ['id'], ['PUT' => 0, 'POST' => 1], null, false, true, null]],
-        503 => [[['_route' => 'app_api_recipesapi_delete', '_controller' => 'App\\Controller\\API\\RecipesApiController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        534 => [[['_route' => 'get_user', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::getUserById'], ['id'], ['GET' => 0], null, false, true, null]],
-        555 => [[['_route' => 'edit_user', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::edit'], ['id'], ['PUT' => 0], null, false, true, null]],
-        578 => [[['_route' => 'delete_user', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        610 => [[['_route' => 'admin', 'section' => 'dashboard', '_controller' => 'App\\Controller\\Admin\\AdminDashboardController::dashboard'], ['section'], null, null, false, true, null]],
-        633 => [[['_route' => 'admin.category.index', '_controller' => 'App\\Controller\\Admin\\CategoryController::index'], [], null, null, false, false, null]],
-        653 => [
+        457 => [[['_route' => 'app_api_recipesapi_getrecipebyid', '_controller' => 'App\\Controller\\API\\RecipesApiController::getRecipeById'], ['id'], ['GET' => 0], null, false, true, null]],
+        478 => [[['_route' => 'app_api_recipesapi_edit', '_controller' => 'App\\Controller\\API\\RecipesApiController::edit'], ['id'], ['PUT' => 0, 'POST' => 1], null, false, true, null]],
+        501 => [[['_route' => 'app_api_recipesapi_delete', '_controller' => 'App\\Controller\\API\\RecipesApiController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        532 => [[['_route' => 'get_user', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::getUserById'], ['id'], ['GET' => 0], null, false, true, null]],
+        553 => [[['_route' => 'edit_user', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::edit'], ['id'], ['PUT' => 0], null, false, true, null]],
+        576 => [[['_route' => 'delete_user', '_controller' => 'App\\Controller\\API\\adminApi\\ApiUserController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        608 => [[['_route' => 'admin', 'section' => 'dashboard', '_controller' => 'App\\Controller\\Admin\\AdminDashboardController::dashboard'], ['section'], null, null, false, true, null]],
+        631 => [[['_route' => 'admin.category.index', '_controller' => 'App\\Controller\\Admin\\CategoryController::index'], [], null, null, false, false, null]],
+        651 => [
             [['_route' => 'admin.category.edit', '_controller' => 'App\\Controller\\Admin\\CategoryController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null],
             [['_route' => 'admin.category.delete', '_controller' => 'App\\Controller\\Admin\\CategoryController::remove'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        674 => [[['_route' => 'admin.recipe.index', '_controller' => 'App\\Controller\\Admin\\RecipeController::index'], [], null, null, true, false, null]],
-        694 => [
+        672 => [[['_route' => 'admin.recipe.index', '_controller' => 'App\\Controller\\Admin\\RecipeController::index'], [], null, null, true, false, null]],
+        692 => [
             [['_route' => 'admin.recipe.edit', '_controller' => 'App\\Controller\\Admin\\RecipeController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null],
             [['_route' => 'admin.recipe.delete', '_controller' => 'App\\Controller\\Admin\\RecipeController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        712 => [[['_route' => 'admin_user.index', '_controller' => 'App\\Controller\\Admin\\UserController::index'], [], null, null, true, false, null]],
-        733 => [[['_route' => 'admin_user.edit', '_controller' => 'App\\Controller\\Admin\\UserController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        750 => [[['_route' => 'admin_user.delete', '_controller' => 'App\\Controller\\Admin\\UserController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        760 => [[['_route' => 'dashboard', '_controller' => 'App\\Controller\\Admin\\DashboardController::index'], [], null, null, false, false, null]],
-        801 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
-        821 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
-        863 => [[['_route' => '_profiler_font', '_controller' => 'web_profiler.controller.profiler::fontAction'], ['fontName'], null, null, false, false, null]],
-        900 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
-        914 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
-        934 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
-        947 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        957 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
-        995 => [[['_route' => 'api_department_show', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1016 => [[['_route' => 'api_department_edit', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::edit'], ['id'], ['PUT' => 0], null, false, true, null]],
-        1040 => [[['_route' => 'api_department_delete', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        1067 => [[['_route' => 'department_edit', '_controller' => 'App\\Controller\\DepartmentController::edit'], ['id'], null, null, false, true, null]],
-        1091 => [
+        710 => [[['_route' => 'admin_user.index', '_controller' => 'App\\Controller\\Admin\\UserController::index'], [], null, null, true, false, null]],
+        731 => [[['_route' => 'admin_user.edit', '_controller' => 'App\\Controller\\Admin\\UserController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        748 => [[['_route' => 'admin_user.delete', '_controller' => 'App\\Controller\\Admin\\UserController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        758 => [[['_route' => 'dashboard', '_controller' => 'App\\Controller\\Admin\\DashboardController::index'], [], null, null, false, false, null]],
+        799 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
+        819 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
+        861 => [[['_route' => '_profiler_font', '_controller' => 'web_profiler.controller.profiler::fontAction'], ['fontName'], null, null, false, false, null]],
+        898 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
+        912 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
+        932 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
+        945 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
+        955 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+        993 => [[['_route' => 'api_department_show', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1014 => [[['_route' => 'api_department_edit', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::edit'], ['id'], ['PUT' => 0], null, false, true, null]],
+        1038 => [[['_route' => 'api_department_delete', '_controller' => 'App\\Controller\\API\\ApiDepartmentController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        1065 => [[['_route' => 'department_edit', '_controller' => 'App\\Controller\\DepartmentController::edit'], ['id'], null, null, false, true, null]],
+        1089 => [
             [['_route' => 'department_delete', '_controller' => 'App\\Controller\\DepartmentController::delete'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

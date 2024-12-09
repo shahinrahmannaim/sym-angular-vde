@@ -99,15 +99,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // Ensure every user has at least ROLE_USER
+        // Start with the roles already assigned to the user
+    $roles = $this->roles;
+
+    // Ensure every user has at least ROLE_USER
+    if (!in_array('ROLE_USER', $roles)) {
         $roles[] = 'ROLE_USER';
+    }
 
-        if ($this->isVerified()) {
-            $roles[] = 'ROLE_VERIFIED';
-        }
+    // Add ROLE_VERIFIED only if the user is verified and it isn't already in the list
+    if ($this->isVerified() && !in_array('ROLE_VERIFIED', $roles)) {
+        $roles[] = 'ROLE_VERIFIED';
+    }
 
-        return array_unique($roles);
+    return array_unique($roles); //
     }
 
     /**
